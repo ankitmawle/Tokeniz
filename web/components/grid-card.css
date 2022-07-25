@@ -1,0 +1,22 @@
+.grid-card-grid-card {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  padding: 36px;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--dl-color-grays-white100);
+}
+.grid-card-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-bottom: var(--dl-space-space-oneandhalfunits);
+}
+.grid-card-text {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: var(--dl-space-space-halfunit);
+}
