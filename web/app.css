@@ -21,6 +21,7 @@
   justify-content: flex-start;
 }
 .home-container1 {
+  overflow: wrap;
   flex: 0 0 auto;
   width: 100%;
   display: flex;
