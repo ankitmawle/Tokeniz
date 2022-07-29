@@ -43,15 +43,28 @@
       }
     </style>
     <link rel="stylesheet" href="./styleapp.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
   </head>
   <body>
     
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
     <script>
-	  	var coin_abi=[
+
+    /* To connect using MetaMask */
+    async function connect() {
+     if (window.ethereum) {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      window.web3 = new Web3(window.ethereum);
+      document.getElementById("wallet").innerText= "Connected";
+     } else {
+      console.log("No wallet");
+     }
+    }
+    function mint(){
+      tk=document.getElementById("tokens");
+      const nodeList = tk.childNodes;
+      let tokens=[];
+      let amounts=[];
+      var coin_abi=[
 	{
 		"inputs": [
 			{
@@ -130,7 +143,18 @@
 		"type": "function"
 	}
 ];
-		var Tokeniz_abi= [
+
+      for(i=1;i<nodeList.length;i++){
+        tokens.push(nodeList[i].value);
+        const coin= new  web3.eth.Contract(coin_abi,nodeList[i].value);
+        i++;
+        amounts.push(parseInt(nodeList[i].value));
+        coin.methods.approve("0x6f6392F85CDb5a36A68D2388F6e97082D8E3bCeE",parseInt(nodeList[i].value)).send({from:"0x06cb2E3e4768742D19347Fc9234995A85E778837"});
+        i++
+      }
+  
+
+      var abi= [
 	{
 		"inputs": [
 			{
@@ -870,7 +894,7 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "tokenID",
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -997,360 +1021,32 @@
 		"type": "function"
 	}
 ];
-        var Tokeniz_base_abi=[
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_initiator",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_tokenURI",
-				"type": "string"
-			},
-			{
-				"internalType": "address[]",
-				"name": "_tokensAddresses",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "_amounts",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_tokenID",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "_tokenizAdmin",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "stage",
-				"type": "uint256"
-			}
-		],
-		"name": "minttoken",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_initiator",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "receiver",
-				"type": "address"
-			}
-		],
-		"name": "_safeTransfer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "_safeUnPack",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "isPacked",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "name",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "packed",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "tokenBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tokenId",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "tokenURI",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "tokensAddresses",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "unPack",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	}
-]
-		var linecounter=0;
-
-	const serverUrl = "https://arcrymytjilr.usemoralis.com:2053/server";
-    const appId = "4NfA5D2b3XBiXS15mthSx7PsKQWhuv0f1YYvGpuc";
-    Moralis.start({ serverUrl, appId });
-	
-	async function start(){
-		Moralis.enableWeb3();
-		let user = Moralis.User.current();
-		if(user){
-			console.log("logged in user:", user);
-			document.getElementById("btn-login").innerText= user.get("ethAddress");
-			document.getElementById("btn-logout").style.display= "block";
-			const options = {
-			address: "0x6f6392F85CDb5a36A68D2388F6e97082D8E3bCeE",
-			function_name: "balanceOf",
-			abi: ABI,
-			params: { who: user.get("ethAddress") },
-			};
-			const allowance = await Moralis.Web3API.native.runContractFunction(options);
-			}
-	}
-	async function login() {
-        let user = Moralis.User.current();
-		
-        if (!user) {
-          user = await Moralis.authenticate();
-        }
-        console.log("logged in user:", user);
-		document.getElementById("btn-login").innerText= user.get("ethAddress");
-		document.getElementById("btn-logout").style.display= "block";
-      }
-	
-	
-	async function logOut() {
-        await Moralis.User.logOut();
-        console.log("logged out");
-		
-		document.getElementById("btn-logout").style.display= "none";
-		document.getElementById("btn-login").innerText= "Connect Wallet";
+      
+      const TokenizAdmin = new web3.eth.Contract(abi, "0x6f6392F85CDb5a36A68D2388F6e97082D8E3bCeE");
+      TokenizAdmin.methods.mint("Tokeniz Test","http://generational.in/tokens?id=0",tokens,amounts,0).send({from:"0x06cb2E3e4768742D19347Fc9234995A85E778837"});
+      alert("Token Minted");
+      console.log(tokens,amounts);
     }
-
-	async function unpack(){
-		let tokenAdd=document.getElementById("unpackTokenID").value
-	
-		const options = {
-		contractAddress: tokenAdd,
-		functionName: "unPack",
-		abi: Tokeniz_base_abi,
-		};
-		const unpacked = await Moralis.executeFunction(options);
-		console.log(address);
-		alert("Unpacked")
-
-	}
-
-    async function mint(){
-      tk=document.getElementById("tokens");
-      const nodeList = tk.childNodes;
-      let tokens=[];
-      let amounts=[];
-	  let approved=[];
-      for(i=1;i<nodeList.length;i++){
-		if (nodeList[i].value==""){
-			i=i+3;
-			continue;
-		}
-        tokens.push(nodeList[i].value);
-        i++;
-        amounts.push(parseInt(nodeList[i].value));
-        i++;
-		approved.push(nodeList[i].disabled);
-		if(!nodeList[i].disabled){
-			alert("Please approve all tokens");
-			return;
-		}
-		i++;
-      }
-	  
-	  const options = {
-		contractAddress: "0x6f6392F85CDb5a36A68D2388F6e97082D8E3bCeE",
-		functionName: "mint",
-		abi: Tokeniz_abi,
-		params: { tokenName:"Tokeniz Test",_tokenURI:"http://whiteboardcyborgs.com:3002/whiteboardelephants?id=1",_tokensAddresses:tokens,_amounts:amounts,_trxAmount:0},
-		};
-		console.log(options);
-		const mint = await Moralis.executeFunction(options);
-		const receipt = await mint.wait();
-		console.log(receipt);
-		alert("Token Minted");
-    
-    }
-
-	async function approve(id){
-		baseID= id.slice(3);
-		token= document.getElementById("add"+baseID);
-		amount= document.getElementById("amount"+baseID);
-		
-		const options = {
-		contractAddress: token.value,
-		functionName: "approve",
-		abi: coin_abi,
-		params: { spender: "0x6f6392F85CDb5a36A68D2388F6e97082D8E3bCeE", amount: parseInt(amount.value) ,},
-		};
-		console.log(options);
-		const allowance = await Moralis.executeFunction(options);
-		const receipt = await allowance.wait();
-		console.log(receipt);
-		document.getElementById(id).value="Approved";
-		document.getElementById(id).style.backgroundColor="#4a7b7a";
-		document.getElementById(id).disabled=true;
-		
-	}
 
     function addline(){
-		linecounter++;
       tk= document.getElementById("tokens");
       inp=document.createElement("input");
       inp.type="text";
-	  inp.id="add"+linecounter;
       inp.placeholder="Token Address"
       inp.pattern= "/^0x[a-fA-F0-9]{40}$/"
       inp.className="button button-primary"
-      inp.style.width="50%";
-	  inp.style.backgroundColor="#4a7b7a40";
+      inp.style.width="60%";
       inp2=document.createElement("input");
       inp2.type="Number";
       
-	  inp2.id="amount"+linecounter;
       inp2.placeholder="Amount"
-      inp2.style.width="25%";
+      inp2.style.width="30%";
       inp2.className="button button-primary"
-	  
-	  inp2.style.backgroundColor="#4a7b7a40";
-	  btnApprove=document.createElement("input");
-	  btnApprove.onclick=function (){
-		approve(this.id)							
-	  										}
-      btnApprove.id="app"+linecounter;
-	  btnApprove.type="button";
-      btnApprove.value="Approve Token";
-      btnApprove.style.width="25%";
-      btnApprove.className="button button-primary"
       hr=document.createElement("hr");
       tk.append(inp);
       tk.append(inp2);
-	  tk.append(btnApprove)
       tk.append(hr);
-	  
-	}
+    }
 
 
 
@@ -1369,8 +1065,8 @@
             />
             <span class="home-text heading2">Tokeniz</span>
             <div class="home-container2">
-				<button id="btn-logout" onclick="logOut()" style="margin-right: 10px; display:none" class="button button-primary">Disconnect wallet</button>
-                <button id="btn-login" onclick="login()" style="margin-right: 10px;" class="button button-primary">Connect wallet</button>
+              
+                <button id="wallet" onclick="connect()" style="margin-right: 10px;" class="button button-primary">Connect wallet</button>
               
             </div>
 
@@ -1395,8 +1091,9 @@
               <span class="home-text07">Support</span>
               <span class="home-text08">Docs</span>
               <span class="home-text09">
-              <span>Github</span>
-
+                <span>Githu</span>
+                <span class="home-text11"></span>
+                <span>b</span>
               </span>
             </nav>
             <nav class="home-nav2"></nav>
@@ -1417,44 +1114,14 @@
 
               
             </div>
-			<hr style="width:50%;text-align:left;margin-left:0">
-			<div class="home-container5">
-				<h2 id="Unpack">Unpack Tokeniz</h2>
-				<hr>
-				<p>Unpack and reclaim your tokens</p> 
-				<hr>
-				<div id="unpack">
-					<input 
-						type="text" 
-						id="unpackTokenID" 
-						placeholder="Token Address" 
-						 
-						class="button button-primary" 
-						style="width: 50%; background-color: rgba(74, 123, 122, 0.25);">
-				<input 	
-						id="unpackBtn" 
-						type="button" 
-						value="Unpack" 
-						class="button button-primary" 
-						style="width: 25%;"
-						onclick="unpack()">
-					<hr>
-				</div>
-
-  
-  
-				
-			  </div>
-			  
           </div>
-
+          <div class="home-container7"></div>
         </div>
       </div>
     </div>
     <script src="https://unpkg.com/@teleporthq/teleport-custom-scripts"></script>
     <script>
       window.onload = () => {
-		start();
         const runAllScripts = () => {
           initializeAllSliders();
         };
