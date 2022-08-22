@@ -1,5 +1,4 @@
-import { ankit1, dhanvanti, facebook, instagram, linkedin, twitter,send, shield, star  } from "../assets";
-
+import { ankit1, dhanvanti, facebook, instagram, linkedin, twitter,send, shield, star, Github  } from "../assets";
 export const navLinks = [
   {
     id: "home",
@@ -72,8 +71,8 @@ export const feedback = [
 export const socialMedia = [
   {
     id: "social-media-1",
-    icon: instagram,
-    link: "https://www.instagram.com/",
+    icon: Github,
+    link: "https://github.com/ankitmawle/Tokeniz/tree/polygon",
   },
   {
     id: "social-media-2",

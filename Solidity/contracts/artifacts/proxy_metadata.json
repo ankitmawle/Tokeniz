@@ -1,0 +1,142 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_initiator",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "tokenName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_tokenURI",
+						"type": "string"
+					},
+					{
+						"internalType": "address[]",
+						"name": "_tokensAddresses",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "_amounts",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_tracker",
+						"type": "uint256"
+					}
+				],
+				"name": "newTokeniz",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "setOwner",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "tokeniz",
+				"outputs": [
+					{
+						"internalType": "contract Tokeniz",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"tron/proxy.sol": "proxy"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"tron/proxy.sol": {
+			"keccak256": "0x7e02caa0efb30914b79652e21f5dad919ae9702dfe2966b65fc27606a32cd122",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://64817e92839fffa66737cb6dfd8e98295e1ba656a08aa26782c7744fe3c8da5b",
+				"dweb:/ipfs/QmWyt9ZvsgHUFhmHFkqiwQuJ1im3pJCgT7Zu3D8UU4LXXg"
+			]
+		},
+		"tron/tokeniz.sol": {
+			"keccak256": "0x47078e15e91839df09f142962cfedfaa5fc1c195cbb40366f1dc2a78b7ea30d2",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://04405fa62813389bbc7cc0da5e49f5e957bb31329ee6e4b4b99ba559ca3e6a12",
+				"dweb:/ipfs/QmdkNScgBC7rm7XpeTCr6Gs3SHHKYah2b4KQUSgV1ZEtMN"
+			]
+		}
+	},
+	"version": 1
+}

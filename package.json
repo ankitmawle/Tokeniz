@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "moralis": "^2.0.3",
     "react": "^18.2.0",
     "react-chrono": "^1.19.1",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-moralis": "^1.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",

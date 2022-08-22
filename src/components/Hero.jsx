@@ -1,5 +1,5 @@
 import styles from "../style";
-import { hand } from "../assets";
+import { hand2 } from "../assets";
 import Button from "./Button";
 
 const Hero = () => {
@@ -30,7 +30,7 @@ const Hero = () => {
       </div>
 
       <div className={`flex-1 flex ${styles.flexCenter} md:my-0 my-10 relative`}>
-        <img src={hand} alt="billing" className="w-[100%] h-[100%] relative z-[5]" />
+        <img src={hand2} alt="billing" className="w-[100%] h-[100%] relative z-[5]" />
 
         {/* gradient start */}
         <div className="absolute z-[0] w-[40%] h-[35%] top-0 pink__gradient" />

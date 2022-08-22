@@ -1,44 +1,40 @@
 import React from "react"
+import styles from "../style";
 import { Chrono } from "react-chrono";
 
 const Timeline = () => {
   const items = [{
-    title: "May 1940",
-    cardTitle: "Tokeniz Contract Dev",
+    title: "August 2022",
+    cardTitle: "  Tokeniz Contract Dev  ",
     
     
   },
 {
-    title: "May ",
-    cardTitle: "Tokeniz Coin Contract Dev",
+    title: "September 2022",
+    cardTitle: "  Tokeniz Coin Contract Dev  ",
   },
   {
-    title: "May ",
-    cardTitle: "Tokeniz ICO",
+    title: " October 2022",
+    cardTitle: "  Tokeniz ICO  ",
     
   },
   {
-    title: "May ",
-    cardTitle: "TRX Locking to provide low cost transaction",
+    title: "November 2022",
+    cardTitle: "  Main net Launch  ",
     
   },
   {
-    title: "May ",
-    cardTitle: "Main net Launch",
+    title: "December2022",
+    cardTitle: "  Tokeniz Market place Launch  ",
     
   },
   {
-    title: "May ",
-    cardTitle: "Tokeniz Market place Launch",
-    
-  },
-  {
-    title: "May ",
+    title: " January 2023",
     cardTitle: "Tokeniz Launch Pad Launch",
     
   },
   {
-    title: " may",
+    title: " 2023",
     cardTitle: "Much more to come",
     
   },
@@ -46,6 +42,10 @@ const Timeline = () => {
 
   return (
     <section id="Timeline">
+      <h2 className={styles.heading2}>
+        Roadmap?<br className="sm:block hidden" /> 
+      </h2>
+      <br />
         <div style={{ width: "100%", height: "70vh" }}>
             <Chrono items={items} cardHeight="50px" theme={{
                 primary: '#063970',

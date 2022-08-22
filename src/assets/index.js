@@ -1,6 +1,7 @@
 import bill from "./bill.png";
 import card from "./card.png";
-import logo from "./logo.svg";
+import logo from "./logo.jpg";
+import logobr from "./logobr.png";
 import quotes from "./quotes.svg";
 import robot from "./robot.png";
 import send from "./Send.svg";
@@ -20,7 +21,10 @@ import ankit1 from "./ankit1.jpg";
 import dhanvanti from "./dhanvanti.jpg";
 import hand from "./hand.png";
 import nft11 from "./nft11.png";
-
+import hand2 from "./hand2.png";
+import coin from "./coin.json";
+import tokenizAdmin from "./tokenizAdmin.json";
+import Github from "./Github.png";
 export {
   bill,
   card,
@@ -44,4 +48,9 @@ export {
   dhanvanti,
   hand,
   nft11,
+  logobr,
+  hand2,
+  tokenizAdmin,
+  coin,
+  Github,
 };
