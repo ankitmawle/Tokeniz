@@ -68,7 +68,7 @@ const Dashboard = ({ styles, text, id }) => {
                         </li>
 
                         <li>
-                        <a class="text-white transition hover:text-white/75" href="">
+                        <a class="text-white transition hover:text-white/75" href="https://opensea.io/collection/tokeniz/">
                             Marketplace
                         </a>
                         </li>
@@ -175,16 +175,16 @@ const Dashboard = ({ styles, text, id }) => {
                                 Disconnect Wallet
                             </a>
                             <a href="/" class="px-6 py-3"> Home </a>
-                            <a href="#My" class="px-6 py-3"> My Tokeniz </a>
-                            <a href="#Mint" class="flex items-center justify-between px-6 py-3">
+                            <a href="app/My" class="px-6 py-3"> My Tokeniz </a>
+                            <a href="app/Mint" class="flex items-center justify-between px-6 py-3">
                                 Mint Tokeniz
                             
                             </a>
-                            <a href="#Marketplace" class="flex items-center justify-between px-6 py-3">
+                            <a href="https://opensea.io/collection/tokeniz" class="flex items-center justify-between px-6 py-3">
                                 Marketplace
                                 
                             </a>
-                            <a href="#Doc" class="px-6 py-3"> Documentation </a>
+                            <a href="https://github.com/ankitmawle/Tokeniz/tree/polygon" class="px-6 py-3"> Documentation </a>
                             <a href="" class="px-6 py-3"> Contact Address<br/>0x... </a>
                             
                         </nav>
