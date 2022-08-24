@@ -1050,7 +1050,7 @@
           i++;
           amounts.push((parseFloat(nodeList[i].value)*(10**18)).toString());
           i++;
-          dict[nodeList[i].value]=parseFloat(nodeList[i].value)*(10**18)
+          dict[nodeList[i-2].value]=parseFloat(nodeList[i-1].value)*(10**18)
           approved.push(nodeList[i].disabled);
           if(!nodeList[i].disabled){
             alert("Please approve all tokens");
