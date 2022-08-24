@@ -1,6 +1,17 @@
 Tokeniz Polygon address:- 0xF45F7f9A0C74c7ED0C422258C3F8c6083ce6bA6C
 
-## Steps to deploy new tokeniz
+Spheron Deployment link:- https://tokeniz-dist-r09fqf.spheron.app/
+
+Aws Hosted link for non static development environment tests :- http://13.127.139.26:8080/
+
+please note AWS deployment is for development purpose only, and runs only on http
+
+Opensea link:- https://opensea.io/collection/tokeniz
+
+New Video:- https://youtu.be/nuskKijq3y0
+
+Old video(with no audio in demo) link if judges want to verify nothing changed:- https://youtu.be/_Qd3eDLL4PM
+## Steps to deploy new Tokeniz Contract
 1. Open Remix and copy contracts
 2. Compile TokenizAdmin.sol
 3. Deploy Proxy.sol  
@@ -8,6 +19,36 @@ Tokeniz Polygon address:- 0xF45F7f9A0C74c7ED0C422258C3F8c6083ce6bA6C
 5. Run setOwner function of Proxy contract by providing address of TokenizAdmin as input
 6. setMint of TokenizAdmin contract to open minting
 
+## To run local website Version
+1. clone the repo 
+2. install all dependencies by 
+``` console
+ npm install 
+ ```
+3. Run Development env by 
+``` console
+npm run dev
+```
+4. Build project for deployment
+``` console
+npm run build
+```
+5. Run Built project
+``` console
+npm run preview
+```
+6. To host project on static server or spheron run this command
+
+**Windows CMD**
+``` console
+cd dist && mkdir app && copy index.html app && cd app && mkdir Mint && copy index.html Mint && mkdir My && copy index.html My
+ ```
+**Ubuntu Terminal**
+``` console
+cd dist && mkdir app && cp index.html app && cd app && mkdir Mint && cp index.html Mint && mkdir My && cp index.html My
+ ```
+
+7. Upload dist folder to shared hosting or upload separately on second git repo and deploy as Vanilla JS on spheron
 ## Inspiration
 There are three stories those inspired us to develop Tokeniz. 
 1. Being a Blockchain developer I wanted to give a crypto gift to a friend of mine for her birthday, but after going through various NFT it was evident that she being new to the crypto world it would be harder for her to actually use the NFT for any purpose plus she would have to sell it to someone else to actually make any use of it, So I need something that would be like a **NFT with meta data and stuff as well as will also have some intrinsic value which could be used**. 
