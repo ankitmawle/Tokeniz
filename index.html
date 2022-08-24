@@ -1030,9 +1030,41 @@
         const receipt = await mint.wait();
         console.log(receipt);
         alert("Token Unpacked ");
-
 	  }
-          
+
+	  async function transfer(){
+		let user = Moralis.User.current();
+		var transfer_id=document.getElementById("transferID").value
+		var transfer_address= document.getElementById("transferAddress").value
+
+		const options = {
+        contractAddress: contractAddress,
+        functionName: "transferFrom",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options);
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }
+
+	  async function transferAndUnpack(){
+		let user = Moralis.User.current();
+		var transfer_id=document.getElementById("transferAndUID").value
+		var transfer_address= document.getElementById("transferAndUAddress").value
+
+		const options = {
+        contractAddress: contractAddress,
+        functionName: "transferFromAndUnpack",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options);
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }  
       async function mintTokeniz(){
     	var imageUri= await uploadImage();
         var tk=document.getElementById("tokens");

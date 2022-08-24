@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://unpkg.com/moralis-v1/dist/moralis.js"></script>
     <title>Tokeniz</title>
-    <script type="module" crossorigin src="/assets/index.2d12a420.js"></script>
-    <link rel="stylesheet" href="/assets/index.2cc11df8.css">
+    <script type="module" crossorigin src="/assets/index.28433183.js"></script>
+    <link rel="stylesheet" href="/assets/index.4952fbbb.css">
   </head>
   <body>
     <script>
@@ -1032,9 +1032,41 @@
         const receipt = await mint.wait();
         console.log(receipt);
         alert("Token Unpacked ");
-
 	  }
-          
+
+	  async function transfer(){
+		let user = Moralis.User.current();
+		var transfer_id=document.getElementById("transferID").value
+		var transfer_address= document.getElementById("transferAddress").value
+
+		const options = {
+        contractAddress: contractAddress,
+        functionName: "transferFrom",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options);
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }
+
+	  async function transferAndUnpack(){
+		let user = Moralis.User.current();
+		var transfer_id=document.getElementById("transferAndUID").value
+		var transfer_address= document.getElementById("transferAndUAddress").value
+
+		const options = {
+        contractAddress: contractAddress,
+        functionName: "transferFromAndUnpack",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options);
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }  
       async function mintTokeniz(){
     	var imageUri= await uploadImage();
         var tk=document.getElementById("tokens");
@@ -1052,7 +1084,7 @@
           i++;
           amounts.push((parseFloat(nodeList[i].value)*(10**18)).toString());
           i++;
-          dict[nodeList[i-2].value]=parseFloat(nodeList[i-1].value)
+          dict[nodeList[i-2].value]=parseFloat(nodeList[i-1].value)*(10**18)
           approved.push(nodeList[i].disabled);
           if(!nodeList[i].disabled){
             alert("Please approve all tokens");
@@ -1060,7 +1092,7 @@
           }
           i++;
         }
-        dict["Matic"]=parseFloat(document.getElementById("matic").value)
+        dict["Matic"]=parseFloat(document.getElementById("matic").value)*(10**18)
         var metadata={
           "name": document.getElementById("name").value,
           "description": document.getElementById("description").value,
