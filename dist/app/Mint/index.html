@@ -1052,7 +1052,7 @@
           i++;
           amounts.push((parseFloat(nodeList[i].value)*(10**18)).toString());
           i++;
-          dict[nodeList[i-2].value]=parseFloat(nodeList[i-1].value)*(10**18)
+          dict[nodeList[i-2].value]=parseFloat(nodeList[i-1].value)
           approved.push(nodeList[i].disabled);
           if(!nodeList[i].disabled){
             alert("Please approve all tokens");
@@ -1060,7 +1060,7 @@
           }
           i++;
         }
-        dict["Matic"]=parseFloat(document.getElementById("matic").value)*(10**18)
+        dict["Matic"]=parseFloat(document.getElementById("matic").value)
         var metadata={
           "name": document.getElementById("name").value,
           "description": document.getElementById("description").value,
