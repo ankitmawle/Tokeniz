@@ -11,6 +11,35 @@ Opensea link:- https://opensea.io/collection/tokeniz
 New Video:- https://youtu.be/nuskKijq3y0
 
 Old video(with no audio in demo) link if judges want to verify nothing changed:- https://youtu.be/_Qd3eDLL4PM
+## How to mint new tokeniz
+1. Open https://tokeniz-dist-r09fqf.spheron.app/app/Mint
+2. Connect with metamask wallet
+3. Fill in the what name do you want to give to the token
+4. Fill in the description you want to give to the token
+5. Upload the Image/ Gif You want to be shown up for the NFT
+6. Mention the amout of Matic as well as ERC20 Tokens you want to add to the Tokeniz
+7. Approve all tokens you have added
+8. Press Mint and approve the transaction, 
+Your Tokeniz will be minted
+
+## How to unpack your Tokeniz
+1. go to https://tokeniz-dist-r09fqf.spheron.app/app/MyTokeniz
+2. You will find list of all your tokeniz
+3. Click on Unpack button for the tokeniz you want to unpack
+
+
+## How to Taansfer your Tokeniz
+1. go to https://tokeniz-dist-r09fqf.spheron.app/app/MyTokeniz
+2. You will find list of all your tokeniz
+3. paste the address you want to send the tokeniz to 
+4. Click on Transfer button for the tokeniz you want to send
+
+## How to Taansfer and unpack your Tokeniz
+1. go to https://tokeniz-dist-r09fqf.spheron.app/app/MyTokeniz
+2. You will find list of all your tokeniz
+3. paste the address you want to send the tokeniz to 
+4. Click on Transfer and send button for the tokeniz you want to send and unpack
+
 ## Steps to deploy new Tokeniz Contract
 1. Open Remix and copy contracts
 2. Compile TokenizAdmin.sol
@@ -41,11 +70,11 @@ npm run preview
 
 **Windows CMD**
 ``` console
-cd dist && mkdir app && copy index.html app && cd app && mkdir Mint && copy index.html Mint && mkdir My && copy index.html My
+cd dist && mkdir app && copy index.html app && cd app && mkdir Mint && copy index.html Mint && mkdir MyTokeniz && copy index.html MyTokeniz && mkdir Interact && copy index.html Interact 
  ```
 **Ubuntu Terminal**
 ``` console
-cd dist && mkdir app && cp index.html app && cd app && mkdir Mint && cp index.html Mint && mkdir My && cp index.html My
+cd dist && mkdir app && cp index.html app && cd app && mkdir Mint && cp index.html Mint && mkdir MyTokeniz && cp index.html MyTokeniz && mkdir Interact && cp index.html Interact 
  ```
 
 7. Upload dist folder to shared hosting or upload separately on second git repo and deploy as Vanilla JS on spheron

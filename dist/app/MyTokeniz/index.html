@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logocrop.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis-v1/dist/moralis.js"></script>
+    <title>Tokeniz</title>
+
+    <script type="module" crossorigin src="/assets/index.3b1f5fc0.js"></script>
+    <link rel="stylesheet" href="/assets/index.df6d819d.css">
+  </head>
+  <body>
+    <script>
+	  var activeChain=""; 
+      if(window.location.pathname.slice(0,4)=="/app"){
+        const serverUrl = "https://nap9okyztkjh.usemoralis.com:2053/server";
+        const appId = "JXIvHqKdkFgdOoioW3IcQvwKMajQPKnqqR0n4NZf";
+        Moralis.start({ serverUrl, appId });
+		getChainID();
+      }
+      const chain='0x89';
+      const contractAddress= '0xF45F7f9A0C74c7ED0C422258C3F8c6083ce6bA6C';
+	  const mintcost=2; 
+	  async function login() {
+        let user = Moralis.User.current();
+        
+        if (!user) {
+          user = await Moralis.authenticate();
+        }
+        console.log("logged in user:", user);
+        document.getElementById("btn-login").innerText= user.get("ethAddress");
+        document.getElementById("btn-logout").style.display= "block";
+        
+        document.getElementById("btn-login2").innerText= user.get("ethAddress");
+        document.getElementById("btn-logout2").style.display= "block";
+      }
+
+    async function logOut() {
+        await Moralis.User.logOut();
+        console.log("logged out");
+		
+		document.getElementById("btn-logout").style.display= "none";
+		document.getElementById("btn-login").innerText= "Connect Wallet";
+        
+		document.getElementById("btn-logout2").style.display= "none";
+		document.getElementById("btn-login2").innerText= "Connect Wallet";
+    }
+	  async function getChainID(){
+		var changed= false;
+		activeChain= await Moralis.getChainId()
+		if (activeChain!=137){
+			changed =await window.ethereum.request({
+  				method: 'wallet_switchEthereumChain',
+					params: [{ chainId: '0x89' }], // chainId must be in hexadecimal numbers
+					}).then(()=>{return(true)}).catch(()=>{return(false)});;
+		}
+		else {changed= true;}
+		console.log(changed);
+		return changed;
+
+	  }
+	
+      async function _loadNFTS(){
+		let user = Moralis.User.current();
+        if(user){
+          var userAddress= user.get("ethAddress");
+          var options = {chain: chain, address:userAddress, token_address:contractAddress};
+          const nfts = await Moralis.Web3API.account.getNFTsForContract(options);
+		  var res=[]  
+          for(var i=0;i<nfts.result.length;i++){
+           console.log(nfts.result[i])  
+		   var metadata=JSON.parse(nfts.result[i].metadata);
+		   var tId= nfts.result[i].token_id;
+		   var data={}
+		   data["id"]=i
+		   data["name"]=metadata.name
+		   data["description"]=metadata.description
+		   data["token_Id"]=tId
+		   data["img"]=metadata.image
+		   data["visibility"]="visible"
+		   data["link"]="https://opensea.io/assets/matic/"+contractAddress+"/"+tId;
+		   res.push(data)
+          }
+		  return res;
+
+        }
+      }
+		const Tokeniz_abi=[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "symbol",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "mintPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "wallet",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "admin",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "proxyAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "previousAdminRole",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "newAdminRole",
+				"type": "bytes32"
+			}
+		],
+		"name": "RoleAdminChanged",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RoleGranted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RoleRevoked",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "DEFAULT_ADMIN_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_openMint",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_tokenIdTracker",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "reqToken",
+				"type": "address"
+			}
+		],
+		"name": "getLockedTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getLockedTokenBalance",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			}
+		],
+		"name": "getRoleAdmin",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "getRoleMember",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			}
+		],
+		"name": "getRoleMemberCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getTokenizAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "grantRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "hasRole",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "isPacked",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "tokenName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenURI",
+				"type": "string"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_tokensAddresses",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "_amounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_trxAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "price",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "renounceRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "revokeRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "openMint",
+				"type": "bool"
+			}
+		],
+		"name": "setMint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "mintPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "setPrice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "setTokenURI",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenOfOwnerByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenizAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFromAndUnpack",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "unpack",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+        
+	  async function unpack(){
+		if(!getChainID()){
+			alert("Need to be on polygon chain");
+			return}
+		var unpack_id=document.getElementById("unpackID").value
+		const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "unpack",
+        abi: Tokeniz_abi,
+        params: { tokenId:unpack_id},
+        };
+		const mint = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(mint==false){
+			return
+		};
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }
+
+	  async function _unpack_NFT(unpack_id){
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+		const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "unpack",
+        abi: Tokeniz_abi,
+        params: { tokenId:unpack_id},
+        };
+		const mint = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(mint==false){
+			return
+		}
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked");
+	  }
+
+	  async function transfer(){
+		
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+		let user = Moralis.User.current();
+		var transfer_id=document.getElementById("transferID").value
+		var transfer_address= document.getElementById("transferAddress").value
+
+		const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "transferFrom",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(mint==false){
+			return
+		};
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Transfered");
+	  }
+
+
+	  async function _transfer_NFT(transfer_id, transfer_address){
+		
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+		let user = Moralis.User.current();
+		const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "transferFrom",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(mint==false){
+			return
+		};
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }
+
+	  async function transferAndUnpack(){
+		
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+		let user = Moralis.User.current();
+		var transfer_id=document.getElementById("transferAndUID").value
+		var transfer_address= document.getElementById("transferAndUAddress").value
+
+		const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "transferFromAndUnpack",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(mint==false){
+			return
+		}
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }  
+
+	  
+	  async function transferAndUnpack_NFT(transfer_id,transfer_address){
+		
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+		let user = Moralis.User.current();
+		const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "transferFromAndUnpack",
+        abi: Tokeniz_abi,
+        params: { from:user.get("ethAddress"),to:transfer_address,tokenId:transfer_id},
+        };
+		const mint = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(mint==false){
+			return
+		}
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Unpacked ");
+	  }  
+
+      async function mintTokeniz(){
+		
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+    	var imageUri= await uploadImage();
+        var tk=document.getElementById("tokens");
+        const nodeList = tk.childNodes;
+        let tokens=[];
+        let amounts=[];
+        let approved=[];
+        let dict={};
+        for(var i=0;i<nodeList.length;i++){
+          if (nodeList[i].value==""){
+            i=i+3;
+            continue;
+          }
+          tokens.push(nodeList[i].value);
+          i++;
+          amounts.push((parseFloat(nodeList[i].value)*(10**18)).toString());
+          i++;
+          dict[nodeList[i-2].value]=parseFloat(nodeList[i-1].value)*(10**18)
+          approved.push(nodeList[i].disabled);
+          if(!nodeList[i].disabled){
+            alert("Please approve all tokens");
+            return;
+          }
+          i++;
+        }
+        dict["Matic"]=parseFloat(document.getElementById("matic").value)*(10**18)
+        var metadata={
+          "name": document.getElementById("name").value,
+          "description": document.getElementById("description").value,
+          "image": imageUri,
+          "attributes":dict,
+        }
+        const metadataUri= await uploadMeta(metadata);
+        const options = {
+		chain: chain,
+        contractAddress: contractAddress,
+        functionName: "mint",
+        abi: Tokeniz_abi,
+        msgValue:(parseFloat(document.getElementById("matic").value)+mintcost)*(10**18).toString() ,
+        params: { tokenName:"Tokeniz Test",_tokenURI:metadataUri,_tokensAddresses:tokens,_amounts:amounts,_trxAmount:(parseFloat(document.getElementById("matic").value)*(10**18)).toString()},
+        };
+        console.log(options);
+        const mint = await Moralis.executeFunction(options);
+        const receipt = await mint.wait();
+        console.log(receipt);
+        alert("Token Minted");
+      
+      }
+      async function approve(id){
+		
+		
+		if(!getChainID()){
+			alert("Need to be on polygon chain")
+			return};
+        console.log(id);
+        var coin=[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+        var baseID= id.slice(3);
+        var token= document.getElementById("add"+baseID);
+        var amount= document.getElementById("amount"+baseID);
+        
+        const options = {
+		chain: chain,
+          contractAddress: token.value,
+          functionName: "approve",
+          abi: coin,
+          params: { spender: contractAddress, amount: (parseFloat(amount.value)*(10**18)).toString() ,},
+        };
+        console.log(options);
+        const allowance = await Moralis.executeFunction(options).catch((e)=>{
+			alert(e.data.message);
+			return false;
+		});
+		if(allowance==false){
+			return
+		};
+        const receipt = await allowance.wait();
+        console.log(receipt);
+        document.getElementById(id).value="Approved";
+        document.getElementById(id).style.backgroundColor="#4a7b7a";
+        document.getElementById(id).disabled=true;
+      
+    }
+
+      async function uploadImage(){
+        var fileInput=document.getElementById("fileInput"); 
+        const data= fileInput.files[0];
+        const file= new Moralis.File(data.name, data);
+        await file.saveIPFS();
+        console.log(file.ipfs(),file.hash());
+        return file.ipfs()
+      }
+
+      async function uploadMeta(data){
+        const file= new Moralis.File("Tokeniz.json",{base64:btoa(JSON.stringify(data))});
+        await file.saveIPFS();
+        console.log(file.ipfs(),file.hash());
+        return file.ipfs()
+      }
+    </script>
+    <div id="root"></div>
+    
+	
+  </body>
+</html>
