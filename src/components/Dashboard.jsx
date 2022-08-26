@@ -4,31 +4,8 @@ function useForceUpdate(){
     const [value, setValue] =useState(0);
     return ()=>setValue(value=>value+1);
 }
-const Dashboard = ({ styles, text, id }) => {
-    async function login() {
-        let user = Moralis.User.current();
-        
-        if (!user) {
-          user = await Moralis.authenticate();
-        }
-        console.log("logged in user:", user);
-        document.getElementById("btn-login").innerText= user.get("ethAddress");
-        document.getElementById("btn-logout").style.display= "block";
-        
-        document.getElementById("btn-login2").innerText= user.get("ethAddress");
-        document.getElementById("btn-logout2").style.display= "block";
-      }
+const Dashboard = () => {
 
-    async function logOut() {
-        await Moralis.User.logOut();
-        console.log("logged out");
-		
-		document.getElementById("btn-logout").style.display= "none";
-		document.getElementById("btn-login").innerText= "Connect Wallet";
-        
-		document.getElementById("btn-logout2").style.display= "none";
-		document.getElementById("btn-login2").innerText= "Connect Wallet";
-    }
 
     function openMenu(){
 		document.getElementById("Menu").style.display= "block";
@@ -56,7 +33,7 @@ const Dashboard = ({ styles, text, id }) => {
 
                     <ul class="flex items-center gap-6 text-sm">
                         <li>
-                        <a class="text-white transition hover:text-white/75" href="/app/My" onClick={reload}>
+                        <a class="text-white transition hover:text-white/75" href="/app/MyTokeniz" onClick={reload}>
                             My Tokeniz
                         </a>
                         </li>
@@ -64,6 +41,12 @@ const Dashboard = ({ styles, text, id }) => {
                         <li>
                         <a class="text-white transition hover:text-white/75" href="/app/Mint" onClick={reload}>
                             Mint Tokeniz
+                        </a>
+                        </li>
+
+                        <li>
+                        <a class="text-white transition hover:text-white/75" href="/app/Interact" onClick={reload}>
+                            Interact
                         </a>
                         </li>
 
@@ -175,17 +158,19 @@ const Dashboard = ({ styles, text, id }) => {
                                 Disconnect Wallet
                             </a>
                             <a href="/" class="px-6 py-3"> Home </a>
-                            <a href="app/My" class="px-6 py-3"> My Tokeniz </a>
+                            <a href="app/MyTokeniz" class="px-6 py-3"> My Tokeniz </a>
                             <a href="app/Mint" class="flex items-center justify-between px-6 py-3">
                                 Mint Tokeniz
-                            
+                            </a>
+                            <a href="app/Interact" class="flex items-center justify-between px-6 py-3">
+                                Interact
                             </a>
                             <a href="https://opensea.io/collection/tokeniz" class="flex items-center justify-between px-6 py-3">
                                 Marketplace
                                 
                             </a>
                             <a href="https://github.com/ankitmawle/Tokeniz/tree/polygon" class="px-6 py-3"> Documentation </a>
-                            <a href="" class="px-6 py-3"> Contact Address<br/>0x... </a>
+                            <a href="https://polygonscan.com/address/0xf45f7f9a0c74c7ed0c422258c3f8c6083ce6ba6c" class="px-6 py-3"> Contract </a>
                             
                         </nav>
                     </div>

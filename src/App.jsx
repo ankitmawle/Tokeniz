@@ -1,5 +1,5 @@
 import styles from "./style";
-import { Billing, Business, Footer, Head, Testimonials, Hero, Dashboard, Mint, My } from "./components";
+import { Billing, Business, Footer, Head, Testimonials, Hero, Dashboard, Mint, My, NFT } from "./components";
 import Timeline from "./components/Timeline";
 
 import { useEffect } from "react";
@@ -29,13 +29,13 @@ const App = () => {
 			}
 	} 
 
-	if(window.location.pathname.slice(5,7)=="My"){
+	if(window.location.pathname.slice(5,14)=="MyTokeniz"){
 		return(
 		<div className="bg-primary w-full overflow-hidden">
 			<div className={`bg-primary ${styles.flexStart}`}>
 			<div className={`${styles.boxWidth}`}>
 				<Dashboard />
-				<My />
+				<NFT />
 			</div>
 			</div>
 		</div>
@@ -54,14 +54,26 @@ const App = () => {
 		</div>
 		);
 	}
-
-	else{
+	
+	else if(window.location.pathname.slice(5,13)=="Interact"){
 		return(
 		<div className="bg-primary w-full overflow-hidden">
 			<div className={`bg-primary ${styles.flexStart}`}>
 			<div className={`${styles.boxWidth}`}>
 				<Dashboard />
 				<My />
+			</div>
+			</div>
+		</div>
+		);
+	}
+	else{
+		return(
+		<div className="bg-primary w-full overflow-hidden">
+			<div className={`bg-primary ${styles.flexStart}`}>
+			<div className={`${styles.boxWidth}`}>
+				<Dashboard />
+				<NFT />
 			</div>
 			</div>
 		</div>

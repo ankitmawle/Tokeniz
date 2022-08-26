@@ -9,6 +9,7 @@ import ButtonCW from "./ButtonCW";
 import Dashboard  from "./Dashboard";
 import Mint from "./Mint";
 import My from "./My";
+import NFT from "./NFT";
 export {
   Navbar,
   Billing,
@@ -21,4 +22,5 @@ export {
   Dashboard,
   My,
   Mint,
+  NFT,
 };
