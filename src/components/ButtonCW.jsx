@@ -5,7 +5,7 @@ const ButtonCW = ({ styles, text, id }) =>{
     let user = Moralis.User.current();
     
     if (!user) {
-      user = await Moralis.authenticate();
+      user = await Moralis.authenticate().catch(()=>{alert("error loging in, please check your metamask")});;
     }
     console.log("logged in user:", user);
     document.getElementById("btn-login").innerText= user.get("ethAddress");
