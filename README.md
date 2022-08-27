@@ -11,6 +11,8 @@ Opensea link:- https://opensea.io/collection/tokeniz
 New Video:- https://youtu.be/nuskKijq3y0
 
 Old video(with no audio in demo) link if judges want to verify nothing changed:- https://youtu.be/_Qd3eDLL4PM
+
+Checkout demos here:- https://www.youtube.com/channel/UCTceREuVFHsqVcQDjWZW-sQ/about
 ## How to mint new tokeniz
 1. Open https://tokeniz-dist-r09fqf.spheron.app/app/Mint
 2. Connect with metamask wallet
@@ -28,13 +30,13 @@ Your Tokeniz will be minted
 3. Click on Unpack button for the tokeniz you want to unpack
 
 
-## How to Taansfer your Tokeniz
+## How to Transfer your Tokeniz
 1. go to https://tokeniz-dist-r09fqf.spheron.app/app/MyTokeniz
 2. You will find list of all your tokeniz
 3. paste the address you want to send the tokeniz to 
 4. Click on Transfer button for the tokeniz you want to send
 
-## How to Taansfer and unpack your Tokeniz
+## How to Transfer and unpack your Tokeniz
 1. go to https://tokeniz-dist-r09fqf.spheron.app/app/MyTokeniz
 2. You will find list of all your tokeniz
 3. paste the address you want to send the tokeniz to 

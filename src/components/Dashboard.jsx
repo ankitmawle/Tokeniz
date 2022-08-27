@@ -158,11 +158,11 @@ const Dashboard = () => {
                                 Disconnect Wallet
                             </a>
                             <a href="/" class="px-6 py-3"> Home </a>
-                            <a href="app/MyTokeniz" class="px-6 py-3"> My Tokeniz </a>
-                            <a href="app/Mint" class="flex items-center justify-between px-6 py-3">
+                            <a href="/app/MyTokeniz" class="px-6 py-3"> My Tokeniz </a>
+                            <a href="/app/Mint" class="flex items-center justify-between px-6 py-3">
                                 Mint Tokeniz
                             </a>
-                            <a href="app/Interact" class="flex items-center justify-between px-6 py-3">
+                            <a href="/app/Interact" class="flex items-center justify-between px-6 py-3">
                                 Interact
                             </a>
                             <a href="https://opensea.io/collection/tokeniz" class="flex items-center justify-between px-6 py-3">
